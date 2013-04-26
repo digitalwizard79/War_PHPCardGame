@@ -1,0 +1,52 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('ZF2 '. $this->translate('War: The Card Game'))->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()->prependFile("//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js")
+									  ->prependFile($this->basePath() . '/js/html5.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                                      ->prependFile($this->basePath() . '/js/bootstrap.min.js')                                      
+									  ->prependFile($this->basePath() . '/js/game.js') 
+									  ->prependFile($this->basePath() . '/js/jquery.min.js') 
+									  ->prependFile($this->basePath() . '/js/jquery-ui-1.10.2.custom.min.js') ?>
+		
+		<!-- Styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap-responsive.min.css')
+                        ->prependStylesheet($this->basePath() . '/css/style.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') 
+						->prependStylesheet($this->basePath() . '/css/my_custom/jquery-ui-1.10.2.custom.css') ?>
+
+    </head>
+    <body>
+        <div id="wrapper">
+			<h1>War: The *Automated* Card Game</h1>
+			<h2>Brought to you by Object-Oriented PHP 5!</h2>
+			<h3>Design and Code written by Thomas Powers</h3>
+		</div>
+		<div class="buttonRow" style="padding-top: 3%">
+			<input type='button' class="buttonNormal" id="instrButton" name="instrButton" value="View Instructions" />
+			<input type='button' class="buttonNormal" id="newButton" name="newButton" value="New Round" />
+			<input type="button" class="buttonNormal" id="dealButton" name="dealButton" value="Deal Cards" />
+			<input type="button" class="buttonRight" id="resetButton" name="resetButton" value="Reset Game" />
+		</div>
+		<div class="container">
+			<?php echo $this->content; ?>			
+		</div>
+		<div id="bottomButton">
+			<!--<button class="buttonNormal" id="play" name="play">Play Hand</button>-->
+			<button class="buttonRight" id="auto" name="auto">Automate Game</button>
+		</div>
+		<div id="footerDiv">
+			<footer>				
+                <p>&copy; 2013 Thomas Powers. <?php echo $this->translate('All rights reserved.') ?></p>
+            </footer>
+			<?php echo $this->inlineScript() ?>
+		</div>
+		<div id="animDiv" class="invisible"></div>                
+    </body>
+</html>

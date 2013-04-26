@@ -1,0 +1,101 @@
+<script type="text/Javascript">
+	var counter		= 1;
+	var cardName	= '';
+	var deckCounter = 52;				// Number of cards in the deck
+	var p1Cards;
+	var p2Cards;
+	var isWar		= 0;				// Set to 1 when two cards match value
+	var endGame		= 0;				// Set to 1 when the game has been won by either player
+	var animSpeed	= 0;				// Dynamically used to set the speed of the application
+	var msgSpeed	= 0;				// Dynamically used to set the speed of the messages
+	var isReset		= 0;				// Set to 1 when reset or new buttons are pressed
+	
+	$(document).ready(function() {
+		// Start a new game when the page loads		
+		showInstructions();
+		
+		$('#instrButton').click(function() {
+			showInstructions();
+		});
+		
+		// Fired when the 'New Game' button is clicked
+		$('#newButton').click(function() {
+			newGame();			
+		})		
+		
+		// Fired when the 'Deal Cards' button is clicked
+		$('#dealButton').click(function() {
+			shuffle();
+			setTimeout(deal, 2500);			
+		});
+		
+		// Fired when the 'Automate Game' button is clicked
+		$('#auto').click(function() {
+			playHand(1);			
+		});		
+		
+		// Fired when the 'Reset Game' button is clicked
+		$('#resetButton').click(function() {
+			resetDeck();			
+		})
+	});
+</script>
+
+<span id="p1WinMessage">Wins Hand!</span>
+<span id="player1Hand"></span>
+
+<span id="player1Count"></span>
+<span id="player1ScoreHolder">	
+	<label>Player #1 Score: <span id="player1Score">&nbsp;0</span></label>
+</span>
+
+<span id="player1Play"></span>
+
+<div id="deckHolder"></div>
+<span id="message"></span>
+
+<span id="player2Play"></span>
+
+<span id="player2Count"></span>
+<span id="player2ScoreHolder">
+	<label>Player #2 Score: <span id="player2Score">&nbsp;0</span></label>
+</span>
+
+<span id="player2Hand"></span>
+<span id="p2WinMessage">Wins Hand!</span>
+
+<div id="speedPrompt" style='display: none'>
+	<label>Which speed would you like the game to run at?</label>
+	<ul style='list-style-type: none;'>
+		<li style='margin-left: 100px'><a href="#" onClick="setSpeed(1);" style='color: blue'><strong>Slow</strong> (You will die of boredom!)</a></li>
+		<li style='margin-left: 100px'><a href="#" onClick="setSpeed(2);" style='color: blue'><strong>Normal</strong> (You will live to see who wins.)</a></li>
+		<li style='margin-left: 100px'><a href="#" onClick="setSpeed(3);" style='color: blue'><strong>Fast</strong> (Don't blink!)</a></li>
+	</ul>	
+</div>
+
+<div id='instructions' style='display: none'>
+	<h2>Welcome to War: The *Automated* Card Game</h2>
+	<br />
+	<p>This is an application written entirely in PHP 5, using Zend Framework 2. The application simulates two people</p>
+	<p>playing the game of <a href='http://www.pagat.com/war/war.html' target='NEW'>War.</a></p><br />
+	
+	<ul><span>How to Play:</span>
+		<li>
+			<ul><span>Buttons:</span>
+				<li><span>View Instructions</span> -  Displays this dialog box</li>
+				<li><span>New Round</span> - Resets the current round. NOTE: Does not reset the game or the score</li>
+				<li><span>Deal Cards</span> - Shuffles and deals out 26 cards to each player</li>
+				<li><span>Reset Game</span> - Resets the entire game, including the score.</li>
+			</ul>
+			
+			<ul><span>Speeds:</span>   There are three speeds that the round can run at. These are:
+				<li><span>Slow</span> - At this speed, there are approximately 3 seconds between each hand.</li>
+				<li><span>Normal</span> - At this speed, there is approximately 1.5 seconds between each hand.</li>
+				<li><span>Fast</span> - At this speed, there is approximately .5 seconds between each hand.</li>				
+			</ul>
+		</li>
+	</ul>
+	<br />
+	<p>Thank you for playing!</p>
+	<center><a href='#' onClick="hideInstructions();">Close</a></center>
+</div>
