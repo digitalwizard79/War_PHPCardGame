@@ -3,25 +3,30 @@
 namespace Application\Model;
 
 /**
- * Description of Diamond
+ * Diamonds suit class derived from Card (abstract)
  *
  * @author Thomas Powers <digitalwizard79@gmail.com>
  */
 class Card_Diamond extends Card
 {
+	/**
+	 * Overrides constructor so we can pass a value
+	 * @param int $value
+	 */
 	public function __construct($value)
 	{
 		$this->suit		= CardSuit::DIAMONDS;
 		$this->value	= $value; 
 	}
 	
-	public function setImagePath()
+	/**
+	 * Returns the path for the image of the specific card
+	 * Must be defined
+	 * 
+	 * @return string
+	 */
+	/*public function setImagePath()
 	{
-		$class = get_class();
-		$pos = strrpos($class, '\\');
-		$className = substr($class, $pos+1);
-		
-		$this->imgPath = str_replace('_', '/', $className . "_" . $this->value);
-		return  $this->imgPath;
-	}
+		parent::setImagePath();
+	}*/
 }

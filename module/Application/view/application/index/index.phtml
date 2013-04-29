@@ -1,16 +1,21 @@
 <script type="text/Javascript">
-	var counter		= 1;
-	var cardName	= '';
-	var deckCounter = 52;				// Number of cards in the deck
-	var p1Cards;
-	var p2Cards;
-	var isWar		= 0;				// Set to 1 when two cards match value
-	var endGame		= 0;				// Set to 1 when the game has been won by either player
+	var counter		= 1;				// Used in showDealAnim()(File: game.js) to keep track of cards
+	var cardName	= '';				// Used to store the filename of the card to display
+	var deckCounter = 52;				// Used in showDealAnim()(File: game.js) to keep track of the number of cards in the deck
+	
+	var autoMode	= 0;				// Set to 1 when the game is automatic
+	var speed		= 0;				// Holds the value of speed (for the automatic game)
 	var animSpeed	= 0;				// Dynamically used to set the speed of the application
 	var msgSpeed	= 0;				// Dynamically used to set the speed of the messages
-	var isReset		= 0;				// Set to 1 when reset or new buttons are pressed
+	var isHalted	= 0;				// Set to 1 when 'Quit Game', 'Reset Game' or 'New Game' buttons are pressed
+	var hasWinner	= 0;				// Set to 1 when a player's deck gets to 0
+	var rounds		= 0;				// Holds the number of rounds
+	var doQuit		= 0;
 	
-	$(document).ready(function() {
+	$(document).ready(function() {		
+		resetDeck(1);
+		
+		$('#dealButton').hide();
 		// Start a new game when the page loads		
 		showInstructions();
 		
@@ -20,24 +25,40 @@
 		
 		// Fired when the 'New Game' button is clicked
 		$('#newButton').click(function() {
+			doQuit = 0;
+			$('#dealButton').fadeIn(500);
 			newGame();			
 		})		
 		
 		// Fired when the 'Deal Cards' button is clicked
-		$('#dealButton').click(function() {
+		$('#dealButton').click(function() {			
+			$('#dealButton').fadeOut(1000);
 			shuffle();
 			setTimeout(deal, 2500);			
 		});
 		
+		$('#play').click(function() {
+			autoMode = 0;
+			startHand();
+		});
+		
 		// Fired when the 'Automate Game' button is clicked
 		$('#auto').click(function() {
-			playHand(1);			
+			autoMode = 1;
+			setSpeed(speed);
+			startHand();			
 		});		
 		
 		// Fired when the 'Reset Game' button is clicked
 		$('#resetButton').click(function() {
-			resetDeck();			
+			doQuit = 0;
+			$('#dealButton').fadeIn(500);
+			resetDeck();		
 		})
+		
+		$('#quitButton').click(function() {
+			quitGame();			
+		});
 	});
 </script>
 

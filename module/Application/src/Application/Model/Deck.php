@@ -4,6 +4,8 @@ namespace Application\Model;
 
 /**
  * Abstract Deck object
+ * Cannot be instantiated
+ * Implements the Shufflable interface
  *
  * @author Thomas Powers <digitalwizard79@gmail.com>
  */
@@ -18,6 +20,10 @@ abstract class Deck implements Shufflable
 	protected $cardList		= array();
 	protected $count		= 0;
 	
+	/**
+	 * Must be defined by child classes
+	 * @params array of Player objects
+	 */
 	abstract public function deal(array $players);
 	
 	/**

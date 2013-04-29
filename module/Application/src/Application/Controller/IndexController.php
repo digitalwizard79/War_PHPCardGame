@@ -24,6 +24,10 @@ class IndexController extends AbstractActionController
 {
 	protected $session = null;	
 	
+	/**
+	 * Initialize the session if it's not already
+	 * Initialize the game instance components
+	 */
 	public function __construct()
 	{	$this->session = null;
 		if ( null === $this->session ) {
@@ -40,6 +44,10 @@ class IndexController extends AbstractActionController
 		return new ViewModel();
     }
 
+	/**
+	 * Functionality for dealing the cards
+	 * @return json
+	 */
 	public function dealAction()
 	{
 		$wargame	= $this->_load('wargame');
@@ -63,77 +71,72 @@ class IndexController extends AbstractActionController
 	}
 	
 	/**
-	 * Handles the mechanics for the field of play
+	 * Functionality for determining who won
+	 * @return json
+	 */
+	public function getwinnerAction()
+	{
+		$wargame	= $this->_load('wargame');
+		$status		= 0;
+		
+		$wargame->checkForGameWinner();
+		$wargame->setGameWinner();
+		
+		if ( count($wargame->getErrors()) > 0 ) {
+			$errors = $wargame->getErrorsAsString();
+			echo json_encode(array('status' => $status, 'message' => $errors));
+		} else {
+			$this->_save(array('wargame', $wargame));
+			echo $wargame->getDetails();
+		}
+		return $this->response;
+	}
+	
+	/**
+	 * Handles the mechanics for the first portion of play
+	 * NOTE: The play is two-parts. 
+	 * One displays the hand. The other wraps up shifting cards, etc.
+	 * 
+	 * @return json
 	 */
 	public function playAction()
 	{
 		// Retrieve the game object from session
-		$wargame		= $this->_load('wargame');				
-		$status			= 1;
-		$message		= "";
-		$roundWinner	= null;
-		$winner			= 0;
-
-		// Check to see if there is a winner
-		if ( $wargame->checkForWinner() ) {
-			$winner = $wargame->getWinner();
-			$wargame->getPlayer($winner)->addScore(100);
-			
-			$this->_save(array('wargame' => $wargame));
-			echo json_encode(array(
-				'status' => $status, 'winner' => $winner, 'p1' => $wargame->getPlayer(1)->toArray(), 'p2' => $wargame->getPlayer(2)->toArray()
-			));
-			return $this->response;
-		// No winner, so we continue
+		$wargame		= $this->_load('wargame');
+		$status			= 0;
+		
+		$wargame->playHand();
+		if ( count($wargame->getErrors()) >= 1 ) {
+			$errors = $wargame->getErrorsAsString();			
+			echo json_encode(array('status' => $status, 'message' => $errors));
 		} else {
-			// Store the cards into a temporary array
-			$cards = array(
-				$wargame->getPlayer(1)->getTopCard(),
-				$wargame->getPlayer(2)->getTopCard()
-			);
-
-			// Remove the cards from each player's hand  
-			$wargame->getPlayer(1)->removeCardFromHand();
-			$wargame->getPlayer(2)->removeCardFromHand();
-			
-			if ( $wargame->checkForWar() ) { 
-				$message = "WAR!!!!";
-
-				$wargame->getFieldOfPlay()->addToStorage($cards);				
-			} else {								
-				$roundWinner = $wargame->getRoundWinner();
-
-				if ( is_numeric($roundWinner) ) {
-
-					// If we are at war from last round, we need to
-					// put the cards in storage into the player's hand
-					if ( $this->params()->fromPost('isWar') == 'true' ) {
-						$wargame->getFieldOfPlay()->addStorageToPlayer($wargame->getPlayer($roundWinner), true);
-					}
-
-					// Loop through the cards in play and add them
-					// to the player's hand
-					foreach($cards as $card) {
-						$wargame->getPlayer($roundWinner)->addCardToHand($card, true);
-					}				
-				}				
-			}
+			$this->_save(array('wargame', $wargame));
+			echo $wargame->getDetails();
 		}
+		return $this->response;
+	}
 	
-		$errors = $wargame->getErrors();
-		if ( !empty($errors) ) {
-			$status = 0;
-		}		
+	/**
+	 * Handles the mechanics for the second portion of play
+	 * NOTE: The play is two-parts. 
+	 * One displays the hand. The other wraps up shifting cards, etc.
+	 * 
+	 * @return json
+	 */
+	public function finishAction()
+	{
+		$wargame = $this->_load('wargame');
+		$status  = 0;
 		
-		// Clear the errors for next round
-		$wargame->emptyErrors();
+		$wargame->finishHand();
+		if ( count($wargame->getErrors()) >= 1 ) {
+			$errors = $wargame->getErrorsAsString();			
+			echo json_encode( array('status' => $status, 'message' => $errors) );
+		} else {
 		
-		$this->_save(array('wargame' => $wargame));
-		
-		echo json_encode(array(
-			'status' => $status, 'p1' => $wargame->getPlayer(1)->toArray(), 'p2' => $wargame->getPlayer(2)->toArray(),
-			'isWar' => $wargame->checkForWar(), 'message' => $message, 'rWinner' => $roundWinner, 'winner' => $winner
-		));
+			$this->_save(array('wargame', $wargame));
+			echo $wargame->getDetails();
+		}
 		return $this->response;
 	}
 	
@@ -156,6 +159,20 @@ class IndexController extends AbstractActionController
 
 		// Save the game to session
 		$this->_save(array('wargame' => $wargame));
+		return $this->response;
+	}
+	
+	/**
+	 * Handles displaying details when the player quits
+	 * 
+	 * @return json
+	 */
+	public function quitAction()
+	{
+		$wargame = $this->_load('wargame');
+		$wargame->quit();
+		
+		echo json_encode( $wargame->getDetails() );
 		return $this->response;
 	}
 	

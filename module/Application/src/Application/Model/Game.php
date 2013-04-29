@@ -4,26 +4,25 @@ namespace Application\Model;
 
 /**
  * Abstract Game class
+ * NOTE: Cannot be instaniated
  *
  * @author Thomas Powers <digitalwizard79@gmail.com>
  */
 abstract class Game
 {
 	/**
-	 * An array of Player objects
-	 * Note: Represents the players in the game
-	 * 
-	 * @var array of Player
-	 */
-	protected $players		= array();
-	
-	/**
 	 * Deck object
 	 * Note: Represents the deck of cards
 	 * 
 	 * @var Deck 
 	 */
-	protected $deck			= null;
+	protected $deck	= null;
+	
+	/**
+	 * Array of error messages
+	 * @var array
+	 */
+	protected $errors = array();
 	
 	/**
 	 * Field of play
@@ -34,60 +33,71 @@ abstract class Game
 	protected $fieldOfPlay	= null;
 	
 	/**
-	 * Keeps track of how many rounds (games) have been played
+	 * Number of games played
+	 * 
 	 * @var int
 	 */
-	protected $round		= 0;
-	
-	/**
-	 * Array of error messages
-	 * @var array
-	 */
-	protected $errors		= array();
+	protected $games = 0;
 	
 	/**
 	 * Number of the player that won
 	 * NOTE: -1 if nobody has won yet
+	 * 
 	 * @var int
 	 */
-	protected $winner		= -1;
+	protected $gameWinner = 0;
+	
+	/**
+	 * An array of Player objects
+	 * Note: Represents the players in the game
+	 * 
+	 * @var array of Player
+	 */
+	protected $players = array();
 	
 	/**
 	 * Method that handles how the cards are dealt
-	 * Note: This is abstract because each instance of game could
-	 * have a different deal method
+	 * Note: This is abstract because each child of Game will
+	 * likely have a different deal method
 	 */
-	abstract public function deal();	
+	abstract public function deal();
 	
-	public function getWinner()
+	/**
+	 * Returns the winner of the game
+	 * 
+	 * @return int
+	 */
+	public function getGameWinner()
 	{
-		return $this->winner;
+		return $this->gameWinner;
 	}
 	
-	public function emptyErrors()
+	/**
+	 * Initializes the $errors array to empty
+	 */
+	public function clearErrors()
 	{
 		$this->errors = array();
 	}
 	
-	public function getPlayers(array $players = null)
-	{
-		if ($players == null) {
-			return $this->players;
-		} else {
-			foreach($this->players as $player) {
-				array_push($players, $player);
-			}
-		}
-	}
-	
 	/**
-	 * Returns the $deck instance variable
+	 * Returns the Deck instance variable
 	 * 
 	 * @return \Application\Model\Deck
 	 */
 	public function getDeck()
 	{
 		return $this->deck;
+	}
+	
+	/**
+	 * Returns the $errors instance variable
+	 * 
+	 * @return array
+	 */
+	public function getErrors()
+	{
+		return $this->errors;
 	}
 	
 	/**
@@ -101,22 +111,26 @@ abstract class Game
 	}
 	
 	/**
-	 * Returns the $round instance variable
+	 * Returns the $games instance variable
 	 * 
 	 * @return int
 	 */
-	public function getRound()
+	public function getGames()
 	{
-		return $this->round;
+		return $this->games;
 	}
 	
 	/**
-	 * Returns the $errors instance variable
+	 * Returns the array of Player instances
 	 * 
 	 * @return array
 	 */
-	public function getErrors()
+	public function getPlayers()
 	{
-		return $this->errors;
-	}		
+		if ($this->players == null) {
+			return -1;
+		} else {
+			return $this->players;
+		}
+	}
 }

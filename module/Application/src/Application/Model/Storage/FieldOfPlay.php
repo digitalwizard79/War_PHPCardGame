@@ -20,7 +20,6 @@ class Storage_FieldOfPlay extends Storage
 	{
 		foreach($cards as $card) {
 			$this->storage[count($this->storage)] = $card;
-			$this->count++;
 		}
 	}
 	
@@ -39,8 +38,7 @@ class Storage_FieldOfPlay extends Storage
 		
 		// Loop through the storage array and add each card to the player
 		foreach($this->storage as $card) {
-			$player->addCardToHand($card);
-			$this->count--;
+			$player->addCardToHand($card);			
 		}		
 		
 		if ($doReverse) {
@@ -49,5 +47,25 @@ class Storage_FieldOfPlay extends Storage
 		
 		// Reinitialize as an empty array
 		$this->reset();
+	}
+	
+	/**
+	 * Returns the top two cards of the deck
+	 * NOTE: Used to display the top two cards on the play field
+	 * @return array
+	 * @throws Exception (if index out of bounds)
+	 */
+	public function getTopCards()
+	{
+		$count = count($this->storage);
+		
+		try {
+			return array(
+				$this->storage[$count-2], 
+				$this->storage[$count-1]
+			);
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
 	}
 }

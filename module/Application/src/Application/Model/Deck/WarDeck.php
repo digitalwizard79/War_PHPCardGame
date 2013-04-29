@@ -11,6 +11,10 @@ use \Exception;
  */
 class Deck_WarDeck extends Deck
 {		
+	/**
+	 * Override default constructor
+	 * @throws Exception
+	 */
 	public function __construct()
 	{
 		try {
@@ -29,18 +33,20 @@ class Deck_WarDeck extends Deck
 	{
 		// Make sure the array isn't empty
 		if ( !empty($players) ) {
-			$count = 1;		// Tracks the index for the $players array
+			$x = 1;		// Tracks the index for the $players array
 			
 			// Loop through the array
 			foreach($this->cardList as $card) {
-				$players[$count-1]->addCardToHand($card);
+				$players[$x]->addCardToHand($card);
+				array_pop($this->cardList);
+				$this->count--;
 
 				// As long as the count is not higher than how many objects in the array
 				// keep incrementing
-				if ($count >= count($players)) {
-					$count = 1;
+				if ($x >= count($players)) {
+					$x = 1;
 				} else {
-					$count++;
+					$x++;
 				}
 			}			
 		} else {

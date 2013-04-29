@@ -84,6 +84,8 @@ span#player1Count {
 
 span#player1ScoreHolder {
 	position: absolute;
+	width: auto;
+	max-width: 100%;
 	bottom: 10%;
 	left: 15%;
 	z-index: 900;	
@@ -141,6 +143,8 @@ span#player2Count {
 
 span#player2ScoreHolder {
 	position: absolute;
+	width: auto;
+	max-width: 100%;
 	bottom: 10%;
 	right: 15%;
 	z-index: 900;
@@ -250,7 +254,7 @@ div#instructions ul li ul li {
    background: -moz-linear-gradient(top, #4c3e9c, #65a5d6);
    background: -ms-linear-gradient(top, #4c3e9c, #65a5d6);
    background: -o-linear-gradient(top, #4c3e9c, #65a5d6);
-   padding: 20px 40px;   
+   padding: 20px 20px;   
    -webkit-border-radius: 31px;
    -moz-border-radius: 31px;
    border-radius: 31px;
@@ -266,7 +270,7 @@ div#instructions ul li ul li {
 }
 
 .buttonNormal {
-	margin-right: 10%;
+	margin-right: 5%;
 }
 
 .buttonNormal:hover, .buttonRight:hover {

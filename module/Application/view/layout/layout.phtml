@@ -30,15 +30,16 @@
 		</div>
 		<div class="buttonRow" style="padding-top: 3%">
 			<input type='button' class="buttonNormal" id="instrButton" name="instrButton" value="View Instructions" />
-			<input type='button' class="buttonNormal" id="newButton" name="newButton" value="New Round" />
+			<input type='button' class="buttonNormal" id="newButton" name="newButton" value="New Game" />
 			<input type="button" class="buttonNormal" id="dealButton" name="dealButton" value="Deal Cards" />
-			<input type="button" class="buttonRight" id="resetButton" name="resetButton" value="Reset Game" />
+			<input type="button" class="buttonNormal" id="resetButton" name="resetButton" value="Reset Game" />
+			<input type="button" class="buttonRight" id="quitButton" name="quitButton" value="Quit Game" style='display: none' />
 		</div>
 		<div class="container">
 			<?php echo $this->content; ?>			
 		</div>
 		<div id="bottomButton">
-			<!--<button class="buttonNormal" id="play" name="play">Play Hand</button>-->
+			<button class="buttonNormal" id="play" name="play">Play Hand</button>
 			<button class="buttonRight" id="auto" name="auto">Automate Game</button>
 		</div>
 		<div id="footerDiv">

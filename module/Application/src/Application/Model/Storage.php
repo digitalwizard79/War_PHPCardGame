@@ -4,6 +4,7 @@ namespace Application\Model;
 
 /**
  * Abstract storage class
+ * Cannot be instantiated
  *
  * @author Thomas Powers <digitalwizard79@gmail.com>
  */
@@ -17,11 +18,17 @@ abstract class Storage
 	protected $storage	= array();
 	
 	/**
-	 * Integer to keep track of the number of cards in storage
-	 * 
-	 * @var int
+	 * Returns the storage array | -1 if empty
+	 * @return array
 	 */
-	protected $count = 0;
+	public function getStorage()
+	{
+		if ( !empty($this->storage) ) {
+			return $this->storage;
+		} else {
+			return -1;
+		}
+	}
 	
 	/**
 	 * (Re)Initializes the storage as an empty array
@@ -29,5 +36,6 @@ abstract class Storage
 	public function reset()
 	{
 		$this->storage = array();
+		
 	}
 }

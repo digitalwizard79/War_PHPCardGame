@@ -22,16 +22,12 @@ class Card_Club extends Card
 	
 	/**
 	 * Returns the path for the image of the specific card
+	 * Must be defined
 	 * 
 	 * @return string
 	 */
-	public function setImagePath()
+	/*public function setImagePath()
 	{
-		$class = get_class();
-		$pos = strrpos($class, '\\');
-		$className = substr($class, $pos+1);
-		
-		$this->imgPath = str_replace('_', '/', $className . "_" . $this->value);
-		return  $this->imgPath;
-	}
+		parent::setImagePath();
+	}*/
 }

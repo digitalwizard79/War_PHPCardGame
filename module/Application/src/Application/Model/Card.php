@@ -4,6 +4,7 @@ namespace Application\Model;
  
 /**
  * Abstract Card class
+ * Cannot be instantiated
  *
  * @author Thomas Powers <digitalwizard79@gmail.com>
  */
@@ -77,7 +78,16 @@ abstract class Card
 	 * Abstract function that will require
 	 * definition in all derived classes
 	 */
-	abstract public function setImagePath();
+	//abstract public function setImagePath();
+	public function setImagePath()
+	{
+		$class = get_called_class();
+		$pos = strrpos($class, '\\');
+		$className = substr($class, $pos+1);
+		
+		$this->imgPath = str_replace('_', '/', $className . "_" . $this->value);
+		return  $this->imgPath;
+	}
 	
 	/**
 	 * Returns the current instance as an array
