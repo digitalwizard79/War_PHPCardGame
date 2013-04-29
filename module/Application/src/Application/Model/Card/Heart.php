@@ -17,16 +17,5 @@ class Card_Heart extends Card
 	{
 		$this->suit		= CardSuit::HEARTS;
 		$this->value	= $value;
-	}
-	
-	/**
-	 * Returns the path of the image for the specific card
-	 * Must be instantiated
-	 * 
-	 * @return string
-	 */
-	/*public function setImagePath()
-	{
-		parent::setImagePath();
-	}*/
+	}	
 }

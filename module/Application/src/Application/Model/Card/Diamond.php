@@ -18,15 +18,4 @@ class Card_Diamond extends Card
 		$this->suit		= CardSuit::DIAMONDS;
 		$this->value	= $value; 
 	}
-	
-	/**
-	 * Returns the path for the image of the specific card
-	 * Must be defined
-	 * 
-	 * @return string
-	 */
-	/*public function setImagePath()
-	{
-		parent::setImagePath();
-	}*/
 }

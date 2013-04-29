@@ -75,10 +75,9 @@ abstract class Card
 	}
 	
 	/**
-	 * Abstract function that will require
-	 * definition in all derived classes
+	 * Return the path to the image of the specific card
+	 * @return string
 	 */
-	//abstract public function setImagePath();
 	public function setImagePath()
 	{
 		$class = get_called_class();
