@@ -4,7 +4,6 @@ namespace Application\Model;
 
 /**
  * Storage component for cards that are in the field of play
- * Note: Singleton (Only one field of play should exist per game)
  *
  * @author Thomas Powers <digitalwizard79@gmail.com>
  */
